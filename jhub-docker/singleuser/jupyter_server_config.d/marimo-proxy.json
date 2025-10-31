@@ -1,0 +1,18 @@
+{
+  "ServerProxy": {
+    "servers": {
+      "marimo": {
+        "command": [
+          "bash",
+          "-lc",
+          "marimo --host=127.0.0.1 --port={port}"
+        ],
+        "timeout": 20,
+        "launcher_entry": {
+          "title": "Marimo",
+          "icon_path": ""
+        }
+      }
+    }
+  }
+}

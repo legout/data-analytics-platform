@@ -1,0 +1,62 @@
+# syntax=docker/dockerfile:1.6
+ARG UV_BASE=ghcr.io/astral-sh/uv:python3.11-bookworm
+FROM ${UV_BASE}
+
+ARG NB_USER=ewn
+ARG NB_UID=1000
+ARG NB_GID=100
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PYTHONUNBUFFERED=1 \
+    UV_LINK_MODE=copy \
+    SHELL=/bin/bash
+
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      git \
+      curl \
+      tini \
+      sudo \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd --create-home --shell /bin/bash --uid "${NB_UID}" --gid "${NB_GID}" "${NB_USER}" \
+    && echo "${NB_USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/90-${NB_USER}
+
+WORKDIR /tmp/bootstrap
+COPY requirements.txt .
+RUN if [ -s requirements.txt ]; then \
+      uv pip install --system -r requirements.txt; \
+    fi
+
+RUN uv pip install --system \
+      jupyterhub==4.* \
+      jupyter_server==2.* \
+      jupyterlab==4.* \
+      jupyter-server-proxy==4.* \
+      jupyter-vscode-proxy \
+      marimo
+
+# VS Code proxy assets expect node inside the image
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs \
+    && npm cache clean --force \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /etc/skel/.jupyter /etc/skel/.config \
+    && mkdir -p /opt/app
+
+COPY marimo-proxy.json /etc/jupyter/jupyter_server_config.d/marimo-proxy.json
+COPY vscode-proxy.json /etc/jupyter/jupyter_server_config.d/vscode-proxy.json
+
+RUN mkdir -p /srv/jupyter \
+    && chown -R "${NB_UID}:${NB_GID}" /srv/jupyter /opt/app /home/"${NB_USER}"
+
+ENV JUPYTERHUB_SINGLEUSER_APP=jupyter_server.serverapp.ServerApp \
+    JUPYTERHUB_API_URL="" \
+    NB_USER=${NB_USER} \
+    NB_UID=${NB_UID}
+
+WORKDIR /home/${NB_USER}
+USER ${NB_USER}
+
+CMD ["jupyterhub-singleuser"]

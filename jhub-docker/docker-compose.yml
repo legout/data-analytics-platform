@@ -1,0 +1,26 @@
+version: "3.9"
+
+networks:
+  jupyterhub:
+    name: jupyterhub-net
+
+volumes:
+  jupyterhub_data:
+
+services:
+  hub:
+    build: ./hub
+    image: local/jupyterhub-hub:latest
+    container_name: jupyterhub-hub
+    restart: unless-stopped
+    networks:
+      - jupyterhub
+    ports:
+      - "8000:8000"
+    volumes:
+      #- jupyterhub_data:/srv/jupyterhub
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      DOCKER_HOST: unix:///var/run/docker.sock
+      DOCKER_NETWORK_NAME: jupyterhub-net
+      # HUB_PUBLIC_HOST: hub.example.com
