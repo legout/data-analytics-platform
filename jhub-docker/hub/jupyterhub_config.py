@@ -7,6 +7,7 @@ c.JupyterHub.bind_url = "http://:8000"
 c.JupyterHub.hub_ip = "hub"
 c.JupyterHub.allow_named_servers = True
 c.JupyterHub.admin_access = True
+c.Application.log_level = "DEBUG"
 
 # --- Authenticator ---
 auth_strategy = os.environ.get("AUTH_STRATEGY", "native").lower()
@@ -18,8 +19,9 @@ elif auth_strategy == "native":
     c.NativeAuthenticator.open_signup = True
     c.Authenticator.admin_users = {"admin"}
     # c.Authenticator.allowed_users = {"volker"}
+    # For bootstrap: allow all users to login until admin approves them; remove after initial setup
     c.Authenticator.allow_all = True
-    c.Authenticator.request_otp = True
+    # c.Authenticator.request_otp = True
 
 # always a good idea to limit to localhost when testing with an insecure config
 # c.JupyterHub.ip = "127.0.0.1"
@@ -38,7 +40,9 @@ c.JupyterHub.spawner_class = "dockerspawner.DockerSpawner"
 network_name = os.environ.get("DOCKER_NETWORK_NAME", "jupyterhub-net")
 c.DockerSpawner.network_name = network_name
 
-c.DockerSpawner.image = "local/jhub-singleuser:latest"
+# Use a public image by default to avoid local image missing errors during initial bring-up.
+# Switch back to "local/jhub-singleuser:latest" after building your single-user image.
+c.DockerSpawner.image = "quay.io/jupyter/datascience-notebook:latest"
 c.DockerSpawner.volumes = {"jupyterhub-user-{username}": "/home/jovyan"}
 
 c.DockerSpawner.mem_limit = "4G"
