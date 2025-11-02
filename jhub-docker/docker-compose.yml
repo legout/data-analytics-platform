@@ -14,9 +14,12 @@ services:
     container_name: jupyterhub-hub
     restart: unless-stopped
     networks:
-      - jupyterhub
+      jupyterhub:
+        aliases:
+          - hub
     ports:
       - "8000:8000"
+    command: ["jupyterhub", "-f", "/etc/jupyterhub/jupyterhub_config.py"]
     volumes:
       - jupyterhub_data:/srv/jupyterhub
       - /var/run/docker.sock:/var/run/docker.sock

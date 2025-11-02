@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+VENVS_DIR="${HOME}/.uv/venvs"
+CURRENT_FILE="${HOME}/.uv/.current-venv"
+
+usage() {
+  cat <<'USAGE'
+Manage persistent uv virtualenvs per user.
+
+Usage:
+  uv-venv create <name> [python]
+  uv-venv activate <name>
+  uv-venv list
+  uv-venv remove <name>
+
+Examples:
+  uv-venv create base 3.11
+  uv-venv activate base
+  uv-venv list
+USAGE
+}
+
+ensure_dirs() {
+  mkdir -p "${VENVS_DIR}"
+}
+
+cmd_create() {
+  local name=${1:-}
+  local py=${2:-}
+  if [[ -z "$name" ]]; then echo "missing <name>"; usage; exit 1; fi
+  ensure_dirs
+  local venv_path="${VENVS_DIR}/${name}"
+  if [[ -d "$venv_path" ]]; then
+    echo "[uv-venv] venv '$name' already exists at $venv_path"; exit 0
+  fi
+  if [[ -n "$py" ]]; then
+    uv venv "$venv_path" --python "$py"
+  else
+    uv venv "$venv_path"
+  fi
+  echo "$venv_path" > "$CURRENT_FILE"
+  echo "[uv-venv] created and selected: $venv_path"
+}
+
+cmd_activate() {
+  local name=${1:-}
+  if [[ -z "$name" ]]; then echo "missing <name>"; usage; exit 1; fi
+  local venv_path="${VENVS_DIR}/${name}"
+  if [[ ! -d "$venv_path" ]]; then echo "[uv-venv] no such venv: $name"; exit 1; fi
+  echo "$venv_path" > "$CURRENT_FILE"
+  echo "[uv-venv] selected: $venv_path"
+}
+
+cmd_list() {
+  ensure_dirs
+  local current=""
+  if [[ -f "$CURRENT_FILE" ]]; then current=$(cat "$CURRENT_FILE"); fi
+  for d in "$VENVS_DIR"/*; do
+    [[ -d "$d" ]] || continue
+    if [[ "$d" == "$current" ]]; then
+      echo "* $(basename "$d") -> $d"
+    else
+      echo "  $(basename "$d") -> $d"
+    fi
+  done
+}
+
+cmd_remove() {
+  local name=${1:-}
+  if [[ -z "$name" ]]; then echo "missing <name>"; usage; exit 1; fi
+  local venv_path="${VENVS_DIR}/${name}"
+  if [[ ! -d "$venv_path" ]]; then echo "[uv-venv] no such venv: $name"; exit 1; fi
+  rm -rf "$venv_path"
+  if [[ -f "$CURRENT_FILE" ]] && grep -qx "$venv_path" "$CURRENT_FILE"; then
+    rm -f "$CURRENT_FILE"
+  fi
+  echo "[uv-venv] removed: $name"
+}
+
+main() {
+  local cmd=${1:-}
+  shift || true
+  case "$cmd" in
+    create) cmd_create "$@" ;;
+    activate) cmd_activate "$@" ;;
+    list) cmd_list "$@" ;;
+    remove) cmd_remove "$@" ;;
+    *) usage; exit 1 ;;
+  esac
+}
+
+main "$@"

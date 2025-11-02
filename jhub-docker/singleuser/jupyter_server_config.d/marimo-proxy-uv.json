@@ -1,0 +1,19 @@
+{
+    "ServerProxy": {
+        "servers": {
+            "marimo": {
+                "command": [
+                    "marimo",
+                    "edit",
+                    "--host=127.0.0.1",
+                    "--port={port}"
+                ],
+                "timeout": 20,
+                "launcher_entry": {
+                    "title": "Marimo (uv)",
+                    "icon_path": ""
+                }
+            }
+        }
+    }
+}
