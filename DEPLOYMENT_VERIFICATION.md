@@ -18,9 +18,9 @@ All three single-user images have been successfully built:
 **Build Command Reference**:
 ```bash
 cd jhub-docker
-docker build -t local/uv-lab:latest -f singleuser/Dockerfile.uv-jupyterlab .
-docker build -t local/uv-vscode:latest -f singleuser/Dockerfile.uv-vscode .
-docker build -t local/uv-marimo:latest -f singleuser/Dockerfile.uv-marimo .
+docker build -t local/uv-lab:latest -f singleuser/Dockerfile.uv-jupyterlab.dockerfile .
+docker build -t local/uv-vscode:latest -f singleuser/Dockerfile.uv-vscode.dockerfile .
+docker build -t local/uv-marimo:latest -f singleuser/Dockerfile.uv-marimo.dockerfile .
 ```
 
 ---

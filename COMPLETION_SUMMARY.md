@@ -151,7 +151,7 @@ Browser (http://localhost:8000)
 | `COMPLETION_SUMMARY.md` | ✓ Created | This file |
 | `jhub-docker/docker-compose.yml` | ✓ Verified | No changes needed |
 | `jhub-docker/hub/jupyterhub_config.py` | ✓ Verified | ProfilesSpawner ready |
-| `jhub-docker/singleuser/Dockerfile.uv-*` | ✓ Built | 3 images created |
+| `jhub-docker/singleuser/Dockerfile.uv-*.dockerfile` | ✓ Built | 3 images created |
 | `templates/singleuser-uv/` | ✓ Available | For custom builds |
 | `docs/PRD.md` | ✓ Existing | Comprehensive guide |
 | `docs/tasks.md` | 🔄 Partial | Most tasks completed |

@@ -1,4 +1,0 @@
-# Add shared Python dependencies here.
-# Example:
-# pandas==2.2.2
-# polars>=0.20
