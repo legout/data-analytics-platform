@@ -6,9 +6,12 @@
                     "marimo",
                     "edit",
                     "--host=127.0.0.1",
-                    "--port={port}"
+                    "--port={port}",
+                    "--base-url={base_url}marimo",
+                    "--headless"
                 ],
-                "timeout": 20,
+                "timeout": 30,
+                "absolute_url": true,
                 "launcher_entry": {
                     "title": "Marimo (uv)",
                     "icon_path": ""

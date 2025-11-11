@@ -1,0 +1,23 @@
+[2025-11-03 10:40:24] INFO     marimo:338 - ToolManager initialized
+[2025-11-03 10:40:28] INFO     marimo:241 - Updating script metadata for /app/test.py
+[2025-11-03 10:40:28] INFO     marimo:464 - Listing packages with 'uv pip list'
+[2025-11-03 10:40:38] INFO     marimo:241 - Updating script metadata for /app/test.py
+[2025-11-03 10:40:38] INFO     marimo:464 - Listing packages with 'uv pip list'
+[2025-11-03 10:40:40] INFO     marimo:197 - Installing in polars with 'uv pip install'
+[2025-11-03 10:40:44] INFO     marimo:241 - Updating script metadata for /app/test.py
+[2025-11-03 10:40:44] INFO     marimo:464 - Listing packages with 'uv pip list'
+[2025-11-03 10:41:01] INFO     marimo:338 - ToolManager initialized
+[2025-11-03 10:41:04] INFO     marimo:241 - Updating script metadata for /app/test.py
+[2025-11-03 10:41:04] INFO     marimo:464 - Listing packages with 'uv pip list'
+[2025-11-03 10:41:05] INFO     marimo:241 - Updating script metadata for /app/test.py
+[2025-11-03 10:41:05] INFO     marimo:464 - Listing packages with 'uv pip list'
+[2025-11-03 10:41:52] INFO     marimo:338 - ToolManager initialized
+[2025-11-03 10:42:20] INFO     marimo:197 - Installing in polars with 'uv pip install'
+[2025-11-03 10:43:16] INFO     marimo:475 - Session view cache miss
+[2025-11-03 10:43:43] INFO     marimo:338 - ToolManager initialized
+[2025-11-03 10:44:49] INFO     marimo:338 - ToolManager initialized
+[2025-11-03 10:46:19] INFO     marimo:338 - ToolManager initialized
+[2025-11-03 10:46:49] INFO     marimo:197 - Installing in numpy with 'uv pip install'
+[2025-11-03 10:47:23] INFO     marimo:396 - Saving user configuration to /root/.config/marimo/marimo.toml
+[2025-11-03 10:47:23] INFO     marimo:884 - MCP dependencies not available. Install with `pip install marimo[mcp]` or `uv add marimo[mcp]`
+[2025-11-03 10:47:23] WARNING  marimo:106 - Failed to reconfigure MCP servers: MCP dependencies not available. Install with `pip install marimo[mcp]` or `uv add marimo[mcp]`

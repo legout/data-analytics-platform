@@ -31,14 +31,6 @@ elif auth_strategy == "native":
 # always a good idea to limit to localhost when testing with an insecure config
 # c.JupyterHub.ip = "127.0.0.1"
 
-# c.DummyAuthenticator.password = os.environ.get("DUMMY_PASSWORD", "")
-# else:
-#     c.JupyterHub.authenticator_class = "nativeauthenticator.NativeAuthenticator"
-#     c.NativeAuthenticator.open_signup = True
-#     c.Authenticator.admin_users = {"admin"}
-# c.Authenticator.allowed_users = {"volker"}
-# c.Authenticator.allow_all = True
-# c.Authenticator.request_otp = True
 
 # --- Spawner: DockerSpawner ---
 # Switch to ProfilesSpawner to offer image + resource size selections
@@ -141,8 +133,8 @@ c.ProfilesSpawner.profiles = [
             image="local/uv-marimo:latest",
             mem_limit="2G",
             cpu_limit=1,
-            # jupyter-server-proxy exposes named servers at /proxy/<name>/
-            default_url="/proxy/marimo/",
+            # jupyter-server-proxy exposes named servers at /<name>/
+            default_url="/marimo",
         ),
     ),
     (
@@ -153,7 +145,7 @@ c.ProfilesSpawner.profiles = [
             image="local/uv-marimo:latest",
             mem_limit="4G",
             cpu_limit=2,
-            default_url="/proxy/marimo/",
+            default_url="/marimo",
         ),
     ),
 ]

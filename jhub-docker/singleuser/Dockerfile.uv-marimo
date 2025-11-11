@@ -20,7 +20,8 @@ RUN uv pip install --system \
     jupyter_server \
     jupyter-server-proxy \
     marimo \
-    jhsingle-native-proxy
+    jupyter-marimo-proxy
+    #jhsingle-native-proxy
 
 # Prepare persistent uv venv directory and helper activation
 RUN mkdir -p /home/nebula/.uv/venvs \
@@ -30,20 +31,20 @@ RUN mkdir -p /home/nebula/.uv/venvs \
 # Copy helper scripts and proxy config
 COPY singleuser/uv-helpers/uv-venv /usr/local/bin/uv-venv
 COPY singleuser/uv-helpers/activate.sh /home/nebula/.uv/activate
-COPY singleuser/jupyter_server_config.d/marimo-proxy-uv.json /usr/local/etc/jupyter/jupyter_server_config.d/marimo-proxy.json
-COPY singleuser/jupyter_server_config.d/marimo-proxy-uv.py /usr/local/etc/jupyter/jupyter_server_config.d/marimo-proxy.py
+#COPY singleuser/jupyter_server_config.d/marimo-proxy-uv.json /usr/local/etc/jupyter/jupyter_server_config.d/marimo-proxy.json
+#COPY singleuser/jupyter_server_config.d/marimo-proxy-uv.py /usr/local/etc/jupyter/jupyter_server_config.d/marimo-proxy.py
 
 # Copy config to multiple well-known locations for guaranteed discovery
-COPY singleuser/jupyter_server_config.d/marimo-proxy-uv.json /etc/jupyter/jupyter_server_config.d/marimo-proxy.json
-COPY singleuser/jupyter_server_config.d/marimo-proxy-uv.py /etc/jupyter/jupyter_server_config.d/marimo-proxy.py
-COPY singleuser/jupyter_server_config.d/marimo-proxy-uv.json /home/nebula/.jupyter/jupyter_server_config.d/marimo-proxy.json
-COPY singleuser/jupyter_server_config.d/marimo-proxy-uv.py /home/nebula/.jupyter/jupyter_server_config.d/marimo-proxy.py
+#COPY singleuser/jupyter_server_config.d/marimo-proxy-uv.json /etc/jupyter/jupyter_server_config.d/marimo-proxy.json
+#COPY singleuser/jupyter_server_config.d/marimo-proxy-uv.py /etc/jupyter/jupyter_server_config.d/marimo-proxy.py
+#COPY singleuser/jupyter_server_config.d/marimo-proxy-uv.json /home/nebula/.jupyter/jupyter_server_config.d/marimo-proxy.json
+#COPY singleuser/jupyter_server_config.d/marimo-proxy-uv.py /home/nebula/.jupyter/jupyter_server_config.d/marimo-proxy.py
 
 RUN chmod +x /usr/local/bin/uv-venv \
     && chown -R nebula:nebula /home/nebula
 
 # Set explicit config dir env for guaranteed discovery
-ENV JUPYTER_CONFIG_DIR=/usr/local/etc/jupyter
+#ENV JUPYTER_CONFIG_DIR=/usr/local/etc/jupyter
 
 # Make sure the JupyterHub single-user app is the Jupyter Server
 ENV JUPYTERHUB_SINGLEUSER_APP=jupyter_server.serverapp.ServerApp

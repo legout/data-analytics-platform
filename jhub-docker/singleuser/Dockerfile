@@ -21,9 +21,10 @@ RUN mamba install -y -c conda-forge \
 RUN pip install --no-cache-dir \
     jupyter-server-proxy \
     jupyter-vscode-proxy \
+    jupyter-marimo-proxy \
     marimo \
     nbgitpuller
 
 ENV JUPYTERHUB_SINGLEUSER_APP=jupyter_server.serverapp.ServerApp
 
-COPY jupyter_server_config.d/marimo-proxy.json /opt/conda/etc/jupyter/jupyter_server_config.d/marimo-proxy.json
+#COPY jupyter_server_config.d/marimo-proxy.json /opt/conda/etc/jupyter/jupyter_server_config.d/marimo-proxy.json

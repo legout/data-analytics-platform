@@ -8,7 +8,9 @@ c.ServerProxy.servers.update({
         "marimo",
         "edit",
         "--host=127.0.0.1",
-        "--port={port}"
+        "--port={port}",
+        "--base-url={base_url}marimo",
+        "--headless"
     ],
         # Slightly generous timeout for first start
         "timeout": 30,
@@ -16,8 +18,8 @@ c.ServerProxy.servers.update({
             "title": "Marimo (uv)",
             "icon_path": ""
         },
-        # Keep URLs relative to the Jupyter Server base_url (/user/<name>/)
-        "absolute_url": False,
+        # CRITICAL: Must be True for marimo to receive full URLs
+        "absolute_url": True,
     }
 })
 
